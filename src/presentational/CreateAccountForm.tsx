@@ -40,7 +40,6 @@ const styles = (theme: Theme) => createStyles({
 
 interface IProps {
     errorMessage: string
-
     isSubmitAwaiting: boolean
     accountCreated: boolean
 }
@@ -63,9 +62,6 @@ const CreateAccountForm: React.SFC<IProps & InjectedFormProps<{}, IProps> & With
                 <Typography color='textSecondary' align='right' variant='body1'>
                     Already have an account?<Link to='/'>Login</Link>
                 </Typography>
-                <Typography color='textSecondary' align='right' variant='body1'>
-                    <Link to='/'>Forgot password?</Link>
-                </Typography>
             </CardContent>
             <CardActions disableActionSpacing={true} className={props.classes.actions}>
                 {
@@ -75,7 +71,9 @@ const CreateAccountForm: React.SFC<IProps & InjectedFormProps<{}, IProps> & With
                             <Icon>send</Icon>
                         </Button>
                 }
-                <small>{props.errorMessage}</small>
+                <Typography color='error' align='center' variant='body1'>
+                    {props.errorMessage}
+                </Typography>
             </CardActions>
         </form>
     </Card>

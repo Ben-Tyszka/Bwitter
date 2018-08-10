@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import FormInputComponent from './FormInputComponent'
 
 import { createStyles, Theme, WithStyles, withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
@@ -7,16 +9,9 @@ import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import Checkbox from '@material-ui/core/Checkbox'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import Icon from '@material-ui/core/Icon'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
 import Typography from '@material-ui/core/Typography'
-import { PASSWORD_MAX_CHARS, PASSWORD_MIN_CHARS } from '../settings'
 
 const styles = (theme: Theme) => createStyles({
     actions: {
@@ -50,66 +45,46 @@ const styles = (theme: Theme) => createStyles({
     },
 })
 
-interface IProps extends WithStyles<typeof styles> {
-    emailOk: boolean
+interface IProps {
     errorMessage: string
-    passwordOk: boolean
-    submitButtonEnabled: boolean
-    shouldShowLoadingComponent: boolean
-    emailOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    passwordOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    submitOnClick: (event: React.FormEvent<HTMLFormElement>) => void
-    staySignedInOnChange: (event: React.FormEvent<HTMLInputElement>) => void
+    isSubmitAwaiting: boolean
 }
-
-const LoginForm: React.SFC<IProps> = props => (
+const LoginForm: React.SFC<IProps & InjectedFormProps<{}, IProps> & WithStyles<typeof styles>> = props => (
     <Card className={props.classes.card}>
-        <form noValidate={true} autoComplete='off' onSubmit={props.submitOnClick}>
+        <form noValidate={true} autoComplete='off' onSubmit={props.handleSubmit}>
             <CardContent>
-                <Typography className={props.classes.title} color='textSecondary' align='center'>
+                <Typography color='textSecondary' align='center' variant='display1'>
                     Login
                 </Typography>
                 <div className={props.classes.container}>
-                    <FormControl className={props.classes.textField} error={!props.emailOk} aria-describedby='email-helper-text'>
-                        <InputLabel htmlFor='email-helper'>Email</InputLabel>
-                        <Input id='email-helper' onChange={props.emailOnChange} type='email' />
-                        <FormHelperText id='email-helper-text'>{props.emailOk ? '' : 'Please enter a valid email'}</FormHelperText>
-                    </FormControl>
-                    <FormControl className={props.classes.textField} error={!props.passwordOk} aria-describedby='password-helper-text'>
-                        <InputLabel htmlFor='password-helper'>Password</InputLabel>
-                        <Input id='password-helper' onChange={props.passwordOnChange} type='password' />
-                        <FormHelperText id='password-helper-text'>{props.passwordOk ? '' : 'Password must be between ' + PASSWORD_MIN_CHARS + '-' + PASSWORD_MAX_CHARS + ' characters and should only contain A-z0-9_-'}</FormHelperText>
-                    </FormControl>
-                    <FormControl className={props.classes.checkbox}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox onChange={props.staySignedInOnChange} />
-                            }
-                            label='Stay signed in?'
-                        />
-                    </FormControl>
+                    <Field name='email' component={FormInputComponent} type='email' label='Email' formControlClass={props.classes.textField} />
+                    <Field name='password' component={FormInputComponent} type='password' label='Password' formControlClass={props.classes.textField} />
                 </div>
                 <Typography color='textSecondary' align='right' variant='body1'>
-                    <Link to='/register'>Create an account</Link>
+                    Don't have an account?<Link to='/register'>Register here</Link>
                 </Typography>
                 <Typography color='textSecondary' align='right' variant='body1'>
-                    <a>Forgot password?</a>
+                    <Link to='/'>Forgot password?</Link>
                 </Typography>
             </CardContent>
-            <CardActions className={props.classes.actions} disableActionSpacing={true}>
+            <CardActions disableActionSpacing={true} className={props.classes.actions}>
                 {
-                    props.shouldShowLoadingComponent ?
+                    props.isSubmitAwaiting ?
                         <CircularProgress /> :
-                        <Button variant='fab' color='primary' aria-label='send' className={props.classes.button} type='submit' disabled={!props.submitButtonEnabled}>
+                        <Button variant='fab' color='primary' aria-label='send' type='submit' className={props.classes.button} disabled={!props.valid}>
                             <Icon>send</Icon>
                         </Button>
                 }
+                <Typography color='error' align='center' variant='body1'>
+                    {props.errorMessage}
+                </Typography>
             </CardActions>
         </form>
-        <Typography color='error' align='center' variant='body1'>
-            {props.errorMessage}
-        </Typography>
     </Card>
 )
 
-export default withStyles(styles)(LoginForm)
+const reduxFormConfig = {
+    form: 'login_form'
+}
+
+export default reduxForm<{}, IProps>(reduxFormConfig)(withStyles(styles)(LoginForm))
