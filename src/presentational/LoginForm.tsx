@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+
+import FormCheckboxComponent from './FormCheckboxComponent'
 import FormInputComponent from './FormInputComponent'
 
 import { createStyles, Theme, WithStyles, withStyles } from '@material-ui/core/styles'
@@ -60,6 +62,7 @@ const LoginForm: React.SFC<IProps & InjectedFormProps<{}, IProps> & WithStyles<t
                     <Field name='email' component={FormInputComponent} type='email' label='Email' formControlClass={props.classes.textField} />
                     <Field name='password' component={FormInputComponent} type='password' label='Password' formControlClass={props.classes.textField} />
                 </div>
+                <Field name='stayLoggedIn' component={FormCheckboxComponent} />
                 <Typography color='textSecondary' align='right' variant='body1'>
                     Don't have an account?<Link to='/register'>Register here</Link>
                 </Typography>

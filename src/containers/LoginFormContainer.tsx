@@ -9,10 +9,11 @@ import { validateEmail, validatePassword } from '../utils/validators'
 interface ICreateAccountFormValues {
     email: string
     password: string
+    stayLoggedIn: boolean
 }
 
 interface IProps {
-    bwitterLogin: (email: string, password: string) => (dispatch: Dispatch) => void
+    bwitterLogin: (email: string, password: string, stayLoggedIn: boolean) => (dispatch: Dispatch) => void
     bwitterAwaitingResponse: () => (dispatch: Dispatch) => void
     errorMessage: string
     isAwaitingResponse: boolean
@@ -35,11 +36,11 @@ class LoginFormContainer extends React.Component<IProps> {
     submit = (values: ICreateAccountFormValues) => {
         if (this.props.isAwaitingResponse) { return }
         this.props.bwitterAwaitingResponse()
-        this.props.bwitterLogin(values.email, values.password)
+        this.props.bwitterLogin(values.email, values.password, values.stayLoggedIn)
     }
     validate = (values: ICreateAccountFormValues) => {
         const { email, password } = values
-        const errorList: ICreateAccountFormValues = {
+        const errorList = {
             email: '',
             password: '',
         }
