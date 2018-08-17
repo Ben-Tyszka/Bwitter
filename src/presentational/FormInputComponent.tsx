@@ -10,12 +10,13 @@ type IFormInputComponentProps = {
     label: string
     type: string
     formControlClass: string
+    bwitterStartAdornment?: React.Component
 } & WrappedFieldProps
 
-const FormInputComponent: React.SFC<IFormInputComponentProps> = ({ input, label, type, formControlClass, meta: { touched, error, warning }, ...otherProps }) => (
+const FormInputComponent: React.SFC<IFormInputComponentProps> = ({ input, label, type, formControlClass, bwitterStartAdornment, meta: { touched, error, warning }, ...otherProps }) => (
     <FormControl error={touched && error} aria-describedby='component-helper-text' className={formControlClass}>
         <InputLabel htmlFor='component-helper'>{label}</InputLabel>
-        <Input {...input} placeholder={label} type={type} />
+        <Input {...input} placeholder={label} type={type} startAdornment={bwitterStartAdornment}/>
         <FormHelperText id='component-helper-text'>{touched && (error && <div>{error}</div>)}</FormHelperText>
     </FormControl>
 )

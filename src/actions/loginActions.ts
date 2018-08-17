@@ -15,11 +15,11 @@ export const login: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> 
         } catch (error) {
             const { message } = error
             if (message.includes('no user record')) {
-                dispatch({ type: SET_ERROR_MESSAGE, payload: 'User not found' })
+                return dispatch({ type: SET_ERROR_MESSAGE, payload: 'User not found' })
             } else if (message.includes('The password is invalid or the user does not have')) {
-                dispatch({ type: SET_ERROR_MESSAGE, payload: 'Incorrect password' })
+                return dispatch({ type: SET_ERROR_MESSAGE, payload: 'Incorrect password' })
             } else {
-                dispatch({ type: SET_ERROR_MESSAGE, payload: message })
+                return dispatch({ type: SET_ERROR_MESSAGE, payload: message })
             }
         }
     }

@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import BwitterNavBar from '../presentational/BwitterNavBar'
+import BwitterAppBarAndDrawerContainer from '../containers/BwitterAppBarAndDrawerContainer'
 
 const AppPage: React.SFC = () => (
     <div>
-        <BwitterNavBar />
+        <BwitterAppBarAndDrawerContainer />
         <h1>You are logged in!</h1>
     </div>
 )
