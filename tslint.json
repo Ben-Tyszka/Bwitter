@@ -14,7 +14,11 @@
     "no-console": false,
     "jsx-no-lambda": false,
     "object-literal-sort-keys": false,
-    "semicolon": [true, "never"]
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "curly": false
   },
   "linterOptions": {
     "exclude": [

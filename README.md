@@ -10,6 +10,6 @@ Bwitter is a Twitter web clone. It is written in Typescript with the React.js fr
 + Hopefully start following test driven development standards
 + Create an modern looking app using material design
 ## Current roadmap
-+ [ ] Boilerplate auth (login, registration, deletion, password reset, auth detection)
-+ [ ] Profile features (username, avatar, bio, link in bio, following)
++ [ ] Boilerplate auth (~~login~~, ~~registration~~, deletion, password reset, ~~auth detection~~)
++ [ ] Profile features (~~username~~,~~avatar~~, ~~bio~~, link in bio, following)
 + [ ] **Basic** tweet feature (you can tweet and view a timeline of your followers tweets tweets)
